@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema({
-  title: String,
-  message: String,
-  creator: String,
-  tags: [String],
+  movie: String,
+  description: String,
+  director: String,
+  genre: [String],
   //we are going to covert the image into string.
   selectedFile: String,
   likeCount: {

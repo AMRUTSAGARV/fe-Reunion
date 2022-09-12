@@ -1,4 +1,4 @@
-import * as api from "../api";
+import * as api from "../api/index.js";
 
 //action creators ->> function that return actions.
 //redux thunk for asynchronous redux actions
@@ -13,6 +13,17 @@ export const getPosts = () => async (dispatch) => {
 
     //earlier here was return action changed to -> dispatch(action)
     dispatch({ type: "FETCH_ALL", payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const createPost = (post) => async (dispatch) => {
+  try {
+    //this is making a post request to our backend server and we are sending a post right there.
+    const { data } = await api.createPost(post);
+
+    dispatch({ type: "CREATE", payload: data });
   } catch (error) {
     console.log(error.message);
   }
