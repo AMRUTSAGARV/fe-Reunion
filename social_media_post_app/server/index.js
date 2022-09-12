@@ -8,20 +8,20 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
+import {} from "dotenv/config";
 
 const app = express();
-
-//every route inside of the post routes is going to start with posts
-app.use("/posts", postRoutes);
 
 //just setting up the body parser so that we can send post requests.
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+//every route inside of the post routes is going to start with posts
+app.use("/posts", postRoutes);
+
 //mongoatlas
-const CONNECTION_URL =
-  "mongodb+srv://SOCIALMEDIA:SOCIALMEDIA@cluster0.csg1hll.mongodb.net/?retryWrites=true&w=majority";
+const CONNECTION_URL = process.env.DB_URL;
 // when we deploy to heroku , heroku is going to populate environmental variable called PORT.
 const PORT = process.env.PORT || 5000;
 
