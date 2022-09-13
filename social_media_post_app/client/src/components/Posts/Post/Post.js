@@ -12,9 +12,12 @@ import useStyles from "./styles";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../../actions/posts";
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Card className={classes.card}>
@@ -30,8 +33,12 @@ const Post = ({ post }) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: "white" }} size="small" onClick={() => {}}>
-          <MoreHorizIcon fontSize="default" />
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          onClick={() => setCurrentId(post._id)}
+        >
+          <MoreHorizIcon fontSize="medium" />
         </Button>
       </div>
       <div className={classes.details}>
@@ -39,21 +46,28 @@ const Post = ({ post }) => {
           {post.genre.map((gen) => `#${gen} `)}
         </Typography>
       </div>
+      <Typography className={classes.movie} variant="h6" gutterBottom>
+        {post.movie}
+      </Typography>
       <CardContent>
-        <Typography className={classes.movie} variant="h5" gutterBottom>
+        <Typography variant="body2" gutterBottom>
           {post.description}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" onClick={() => {}}>
           <ThumbUpAltIcon fontSize="small" />
-          Like
+          {"Like "}
           {post.likeCount}
         </Button>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          //1.did the backend(routes,controllers) , 2.connecting with the component, api , actions , reducers
+          onClick={() => dispatch(deletePost(post._id))}
+        >
           <DeleteIcon fontSize="small" />
-          Delete
-          {post.likeCount}
+          {"Delete "} {post.likeCount}
         </Button>
       </CardActions>
     </Card>

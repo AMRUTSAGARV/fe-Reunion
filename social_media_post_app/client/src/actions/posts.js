@@ -14,7 +14,7 @@ export const getPosts = () => async (dispatch) => {
     //earlier here was return action changed to -> dispatch(action)
     dispatch({ type: "FETCH_ALL", payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -25,6 +25,27 @@ export const createPost = (post) => async (dispatch) => {
 
     dispatch({ type: "CREATE", payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
+  }
+};
+
+export const updatePost = (id, post) => async (dispatch) => {
+  try {
+    // inside of the try we are going to write the api request to updating the post
+    const { data } = await api.updatePost(id, post);
+
+    dispatch({ type: "UPDATE", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    await api.deletePost(id);
+
+    dispatch({ type: "DELETE", payload: id });
+  } catch (error) {
+    console.log(error);
   }
 };

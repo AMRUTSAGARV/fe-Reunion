@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     director: "",
     movie: "",
@@ -13,16 +13,43 @@ const Form = () => {
     genre: "",
     selectedFile: "",
   });
+  //you want to update. when clicking on the updating 3 dots you want the texts already in the text fileds of the form (you dont want to write them all from the begining right? cuz updating make more sense.)
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
   //once the user submits we have to send over a post requestwith all the data typed in into the database.
   const handleSubmit = (e) => {
-    // e.preventdefault is to not to get refresh on the browser.
+    // The preventDefault() method cancels the event if it is cancelable,
+    // meaning that the default action that belongs to the event will not occur.
+    //  For example, this can be useful when: Clicking on a "Submit" button, prevent it from submitting a form.
     e.preventDefault();
-    dispatch(createPost(postData));
+
+    if (currentId) {
+      //if current id is not null we have to to updating(update post is possible)
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+    clear();
   };
-  const clear = () => {};
+  // clear function is to clear the form after submitting (while editing or posting)
+  const clear = () => {
+    setCurrentId(0);
+    setPostData({
+      director: "",
+      movie: "",
+      description: "",
+      genre: "",
+      selectedFile: "",
+    });
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -32,9 +59,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        {/* <Typography variant="h6">
-          {currentId ? `Editing "${post.movie}"` : "Creating a Memory"}
-        </Typography> */}
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} a Movie
+        </Typography>
         <TextField
           name="director"
           variant="outlined"
