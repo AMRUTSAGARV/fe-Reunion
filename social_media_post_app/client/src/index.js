@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.css";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 //Provider is going to keep track of that store which is the global state, and that allows to access that store from anywhere inside
