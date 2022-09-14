@@ -1,3 +1,6 @@
+import { FETCH_ALL, UPDATE, CREATE, DELETE } from "../constants/actionTypes.js";
+//we dont want like beacuse like and update working same here .
+// we are using constants becoz, when error comes we dont get exact what happend if we give them in strings eg:"FETAL_ALL"
 import * as api from "../api/index.js";
 
 //action creators ->> function that return actions.
@@ -12,7 +15,7 @@ export const getPosts = () => async (dispatch) => {
     const { data } = await api.fetchPosts();
 
     //earlier here was return action changed to -> dispatch(action)
-    dispatch({ type: "FETCH_ALL", payload: data });
+    dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -23,7 +26,7 @@ export const createPost = (post) => async (dispatch) => {
     //this is making a post request to our backend server and we are sending a post right there.
     const { data } = await api.createPost(post);
 
-    dispatch({ type: "CREATE", payload: data });
+    dispatch({ type: CREATE, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -34,7 +37,7 @@ export const updatePost = (id, post) => async (dispatch) => {
     // inside of the try we are going to write the api request to updating the post
     const { data } = await api.updatePost(id, post);
 
-    dispatch({ type: "UPDATE", payload: data });
+    dispatch({ type: UPDATE, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -44,7 +47,7 @@ export const deletePost = (id) => async (dispatch) => {
   try {
     await api.deletePost(id);
 
-    dispatch({ type: "DELETE", payload: id });
+    dispatch({ type: DELETE, payload: id });
   } catch (error) {
     console.log(error);
   }
@@ -53,7 +56,7 @@ export const deletePost = (id) => async (dispatch) => {
 export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likePost(id);
-    dispatch({ type: "LIKE", payload: data });
+    dispatch({ type: UPDATE, payload: data });
   } catch (error) {
     console.log(error);
   }
