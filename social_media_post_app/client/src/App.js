@@ -27,6 +27,7 @@ const App = () => {
       <Grow in>
         <Container>
           <Grid
+            className={classes.mainContainer}
             container
             justifyContent="space-between"
             alignItems="stretch"
@@ -47,3 +48,4 @@ const App = () => {
 };
 
 export default App;
+// routes, controllers, api, action, reducers

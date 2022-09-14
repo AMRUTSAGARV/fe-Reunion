@@ -64,3 +64,19 @@ export const deletePost = async (req, res) => {
 };
 
 // {     after implmenting the contoller functions then next step is to go to api folder index.js to implement the api call }
+
+export const likePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with that id.");
+
+  const post = await PostMessage.findById(id);
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    id,
+    { likeCount: post.likeCount + 1 },
+    { new: true }
+  );
+  res.json(updatedPost);
+};
