@@ -2,17 +2,15 @@ import React from "react";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import useStyles from "./styles";
 import film from "../../images/film.png";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const classes = useStyles();
   const user = null;
 
   return (
-    // <BrowserRouter>
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
-        {/* <Link to={"/"}> */}
         <Typography
           component={Link}
           to={"/"}
@@ -22,7 +20,6 @@ const Navbar = () => {
         >
           Film Palette
         </Typography>
-        {/* </Link> */}
         <img className={classes.image} src={film} alt="film" height="60" />
       </div>
       <Toolbar className={classes.toolbar}>
@@ -58,7 +55,6 @@ const Navbar = () => {
         )}
       </Toolbar>
     </AppBar>
-    // </BrowserRouter>
   );
 };
 
